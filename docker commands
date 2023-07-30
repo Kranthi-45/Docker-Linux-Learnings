@@ -1,1 +1,156 @@
+========================================================================================Docker Theory================================================================================================
+
+Docker:   opensource platform for developing,shipping & running applications.
+-------                                  or
+          platform which packages an application & all its dependencies together in the form of containers.
+
+Architecture:
+-----------
+                                   App & Dependencies   App & Dependencies
+                                     -----Container          Container----
+                                             |               |
+                                          -----Docker Engine -----  (manages containers)
+                                                    |
+                                         ---Host Operating System-- (Windows/linux/MacOs - in our comp we can use MySQL,java, python by installing those in our host os, problem occurs when we want to run
+                                                                     two same apps or s/w in one os(ex: mysqlv.8 & mysqlv.11 or java8 & java11)), so two-run multiple s/w we can solve this by virtualization.
+                                                    |
+                                             ----Hardware----   (ram, rom, motherboard, SSD,..etc our hardward)
+
+Virtualization(Virtual machine): (virtualization in our host computer)
+    In our host computer only we can install multiple os(by partitioning the memory) to run different versions of same s/w in multiple os that we have installed in our same host computer. This is called
+virtualization. But installing a new os every time in the same host computer consumes a lot of space/memory(because it divides the ram & harddisk for each os & uses it). so it not recommended approach
+when we want to run/use multiple softwares in the limited storage. So Docker solves this issue.
+    It Helps to run multiple apps or s/w & packages our apps .so for that we need install Docker in our computer so it will provide Docker Engine.
+
+Docker Engine:
+  It will manages/maintains our containers.
+
+Container:
+    So it is independent & isolated environment u can run diff diff s/w & apps in each container
+    ex:
+        1st container - use java v8  & app
+        2nd container - use java v11  & app
+      ...etc
+so we can create as many as containers, we can package our apps & it dependencies together in it & then we can supply to different system/hardware & also we can use it.
+
+Dockerfile, Image & Container:
+-----------------------------
+Dockerfile:
+  text document which contains all the commands that a user can call on the command line to assemble an image.(don't need to hit each command in cmd, it will take each cmnd from docker file & runs to build image)
+
+Docker Image:
+  Template to create docker container.
+    ex: class is blueprint/template used to create many objects & use it. class(template) already has everything(attr, behaviours) what to do when the object is created.
+  
+Docker Container:
+  Runing instance of the docker image, Container hold entire package to run application.
+
+                                                         build                              run
+                                      Dockerfile   --------------->  Docker Image -----------------------------> Docker Container
+
+                                will have all commands           we can create a container                    container created our s/w
+                                to assemble image while we       from this image by running it                 app is running here
+                                building.                               
+
+=====================================================================================Docker Installtion & Setup=========================================================================================
+- Google search for  "install Docker" open the first official site(docs.docker.com)
+- site -> install -> click on "Docker Desktop for Windows"( .exe file / installer file)
+- system requirements 
+    we can install docker in two ways using  WSL 2 backend, hyperV backend or windows container
+    above are virtualization concept. To use docker we need one among above virtualization
+    WSL 2 Backend (widely used):
+      - Windows 10 or 11 with 64 bit
+      - 4gb ram
+      - BIOS level hardware virtualization support must be enabled in BIOS Settings
+        To check:
+          -> open Task Manager -> Performance -> Virtualization: Enabled (below u can see in small, look carefully)
+- While installing first time WSL/docker ask username & password give it
+- Enable WSL 2 feature on Windows
+   WSL(windows subsystem for linux):
+      so we use linux in windows with the help of WSL
+- Install WSL: (official site https://learn.microsoft.com/en-us/windows/wsl/install)
+    ->Open CMD - enter below #Commands
+       wsl --install         (it will install ubuntu os)
+- Install Docker Desktop (which we downloaded earlier)
+- Restart System
+- Open Installed Docker Desktop
+    then it will start running -> click next, next, ok
+- Check Docker installed or not
+   ->open cmd & enter
+      #Commands
+      docker -v
+- To run first image to check docker installed perfectly or not
+    ->open cmd & enter
+      #Commands
+      docker images           (shows zero, because no images currently available in local)
+      docker run hello-world  (when u run this image, it is not there in locally so it will pull from docker hub & then it will run)
+      docker images           (shows hello-world image which we run & created recently)
+      ex:
+	      REPOSITORY                 TAG             IMAGE ID       CREATED             SIZE
+	      hello-world                latest          c6415d97a3f0   About an hour ago   13.3kB
+
+- we can downloaded above Docker image from dockerhub.com
+  many images available in docukerhub so we pull it in our system & we can use it by running it
+  we can also create new image push to dockerhub so others also can pull our image & run our code or app/image
+
+
+===================================================================================== Basic Commands ========================================================================================================
+- Install Terminal(PowerShell) from Microsoft Store & restart (mostly recommended or we can use another cmd also)
+#Commands
+docker --version
+docker -v
+
+docker images (to see all available/running images in our local)
+docker ps     (to see running containers)
+docker pull <image>
+      (visit dockerhub.com will have many images I am taking the hello-world image to pull)
+  docker pull hello-world
+      (if u get an error like docker daemon is not running check docker desktop by opening it is running or not, then try to pull again)
+
+  docker pull openjdk
+  docker images          (lists all local available/pulled images remote docker hub)
+  docker pull openjdk18  (we can also install two different versions of same s/w in system,  u can visit docker hub -> shared tag we can different &legacy versions as well)
+  docker images          (now u can see two OpenJDK s/w available in same os)
+
+docker search <image_id>
+  docker search nginx
+  docker search MySQL   (gives info about that images)
+
+docker run <image_id>   (it will create container & then runs the image in it)
+  docker run python     (image runned but can't see anything now, to see the status of image running follow below commands)
+  docker ps             (shows currently running containers  - shows nothing because it already runned & also existed in seconds)
+  docker ps -a          (shows all containers - currently running & created old containers also)
+
+  docker run --env MYSQL_ROOT_PASSWORD (like this similarly check in net & use , so we can also pass env variables if particular s/w requires to run)
+  docker run -e MYSQL_ROOT_PASSWORD 
+
+  docker run --detach   (it is one option to run the container in detach mode)
+  docker run -d   
+
+docker run --name <give_name_for_container> -d <image_id>
+  docker run --name pythonContainer -d 3adcsddssdd  
+  docker ps              (shows nothing, becoz image already runner & stopped)   
+  docker ps -a           (now u can see name column also where we can see given name for container)
+
+docker run --name <give_name_for_container> -it -d <image_id/imagerepo_name>   (it means interactive mode to use python)
+  docker run --name pythonContainer -it -d 3adcsddssdd
+  docker ps              (shows python container, it does not stopped & status will up)   
+
+docker exec -it <container_id> <command_name>   (need to enter the name which commands u want to )
+  docker exec -it  8efdsdcsjh65 python          (container id means container which is running python image & specify name which python)
+  >>>                                           (opens python environment & we can use python)
+    print("hello world")
+
+
+
+
+
+
+  
+      
+                                
+
+
+
+            
 
