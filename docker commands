@@ -323,40 +323,56 @@ docker run --name javaProject myjavaimage	(run the image so container starts & p
 
 -> Create jar files
 	-main executable file in sprinboot & need to use/copy this jar in image creattion path
-        -gradle -> task -> build -> build(double tap) 	(may be for gradle or other ide projects to create jars for projects)
+	-jar creations
+        	gradle -> task -> build -> build(double tap) 	(may be for gradle or other ide projects to create jars for projects)
+	-Navigate to project explorer leftside in IDE
+		Build -> lib -> .jar
+        -Test jar in local
+		open jar folder location -> open cmd from jar directory
+				#commands
+				java jar .\DockerTest-0.0.1-SNAPSHOT.jar
+		will see output -> "Application started"
+
+-> Deloy Created JAR
+
+-> Open CMD
+#commands
+ls
+mkdir springboot-project
+cd springboot-project
+code .				(open vscode)
+
+-> copy created jars into new above created folder "springboot-project"
+
+-> create Dockerfile
+Dockerfile
+>>>
+	FROM openjdk
+	WOTKDIR /usr/src/myapp
+	COPY . /usr/src/myapp/
+	CMD ["java","-jar","DockerTest-0.0.1-SNAPSHOT.jar"]
+	EXPOSE 9595
+
+-> Build the image from/using Dockerfile & then run it
+#commands
+docker build -t bootimage .
+docker images							("bootimage" image is created after successfull build)
+docker run --name bootProject -it -p 9595:9595 -d bootimage	(need to expose port while running or else wont see output in 9595 port in browser)
+		<container_name>    <image_name>
+docker ps							(can see bootimage container is running)
+
+docker logs <container_name/id>
+ex: docker logs bootProject
+
+-> Open localhost:9595
+	-output is showing
+	-application is running inside docker container(docker ps) not in host operating system.
+
+
+
+		
+	
 
 
   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- 
-
-
-
-
-
-
-  
-      
-                                
-
-
-
-            
 
