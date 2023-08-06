@@ -100,12 +100,12 @@ Docker Container:
 docker --version
 docker -v
 
-docker images (to see all available/running images in our local)
-docker ps     (to see running containers)
+docker images 					(to see all available/running images in our local)
+docker ps     					(to see running containers)
 docker pull <image>
-      (visit dockerhub.com will have many images I am taking the hello-world image to pull)
+      						(visit dockerhub.com will have many images I am taking the hello-world image to pull)
   docker pull hello-world
-      (if u get an error like docker daemon is not running check docker desktop by opening it is running or not, then try to pull again)
+     			 (if u get an error like docker daemon is not running check docker desktop by opening it is running or not, then try to pull again)
 
   docker pull openjdk
   docker images          (lists all local available/pulled images remote docker hub)
@@ -114,32 +114,238 @@ docker pull <image>
 
 docker search <image_id>
   docker search nginx
-  docker search MySQL   (gives info about that images)
+  docker search MySQL   		(gives info about that images)
 
-docker run <image_id>   (it will create container & then runs the image in it)
-  docker run python     (image runned but can't see anything now, to see the status of image running follow below commands)
-  docker ps             (shows currently running containers  - shows nothing because it already runned & also existed in seconds)
-  docker ps -a          (shows all containers - currently running & created old containers also)
+docker run <image_id>   		(it will create container & then runs the image in it)
+  docker run python     		(image runned but can't see anything now, to see the status of image running follow below commands)
+  docker ps             		(shows currently running containers  - shows nothing because it already runned & also existed in seconds)
+  docker ps -a          		(shows all containers - currently running & created old containers also)
 
-  docker run --env MYSQL_ROOT_PASSWORD (like this similarly check in net & use , so we can also pass env variables if particular s/w requires to run)
+  docker run --env MYSQL_ROOT_PASSWORD 	(like this similarly check in net & use , so we can also pass env variables if particular s/w requires to run)
   docker run -e MYSQL_ROOT_PASSWORD 
 
-  docker run --detach   (it is one option to run the container in detach mode)
+  docker run --detach   		(it is one option to run the container in detach mode means run in background)
   docker run -d   
 
 docker run --name <give_name_for_container> -d <image_id>
-  docker run --name pythonContainer -d 3adcsddssdd  
-  docker ps              (shows nothing, becoz image already runner & stopped)   
-  docker ps -a           (now u can see name column also where we can see given name for container)
+  docker run --name pythonContainer -d 3adcsddssdd  		(--name is to give customname to container)
+  docker ps              					(shows nothing, becoz image already runner & stopped)   
+  docker ps -a           					(now u can see name column also where we can see given name for container)
 
 docker run --name <give_name_for_container> -it -d <image_id/imagerepo_name>   (it means interactive mode to use python)
   docker run --name pythonContainer -it -d 3adcsddssdd
-  docker ps              (shows python container, it does not stopped & status will up)   
+  docker ps              			(shows python container, it does not stopped & status will up)   
 
 docker exec -it <container_id> <command_name>   (need to enter the name which commands u want to )
   docker exec -it  8efdsdcsjh65 python          (container id means container which is running python image & specify name which python)
   >>>                                           (opens python environment & we can use python)
     print("hello world")
+ exit()                                         (to come out of python container)
+
+docker inspect <container_id>			  (total info about image/ container)
+docker ps				          (to check running containers  ex: show python container)
+docker images					  (list all images & ex: will use, run now java image from listed images)
+docker run --name javaContainer -it -d openjdk
+docker ps					  (now shows containers images_id or name ex: python, java containers)
+docker exec -it javaContainer jshell              (when we do docker ps u will see "command" coloum ex: jshell, python we can exec with that )
+>>>
+   system.out.println("Hello World");
+/exit						  (to exit from jshelljava container)
+
+                                                   ---------mysqldb--------
+docker pull mysql
+docker images					                  	(shows mysql images)
+docker run --name mysqlDb -e MYSQL_ROOT_PASSWORD=root -d mysql
+docker ps								(will see ex:mysql,python,java current running mysql also)
+docker inspect mysqlDb							(all details of mysql)
+cls									(to clear console)
+docker exec -it mysqlDb bash						(we can exec with container_id or created container_name)
+mysql -p                                                                (do enter & type "root" as password)
+mysql>>>
+	show databases
+	create myDb
+	use myDb
+	exit								(to exit from mysql cli)
+exit									(to exit form mysql container)
+
+                                               ----------nginx--------------
+docker pull nginx
+docker images						(will display ngnix image_id,reponame)
+docker run --name ngnixServer -d -p 8080:80 ngnix	(local host 80 port should redirect/use/expose to 8080 port in container  )   
+					   <image_name/id>
+docker ps						(will see nginx container running & we can see ports)
+>>>open browser & hit below url
+ localhost:8080						(will static nginx welcom page)
+
+					      --------------apache----------
+docker pull httpd
+docker images
+docker run --name httpdServer -d -p 8081:80 httpd
+docker ps
+>>> open browser & hit below url
+localhost:8081					 	(will see default welcome text)
+
+docker stop <container_id / name>
+ex: docker stop pythonContainer
+docker ps						(u will wont see python container in list of containers)
+docker ps -a						(this command shows prev running containers also along with current)
+docker rm <container_id>				(to remove stopped containers entirely from "docker ps -a" also)
+docker rm <cont_id1>  <cont_id2>  <cont_id3>            (to remove multiple stopped containers)
+docker stop <cont_id1> <cont_id2>	
+
+docker images
+docker rmi <image_id/name>				(to remove images also)
+ex: docker rmi openjdk					( we can specify version at end like ":18" if not removed )
+
+docker images prune					(will remove all unused images)
+
+docker ps						(ex: shows pythonContainer running)
+docker stop pythonContainer				(python container stopped)
+docker ps						(shows nothing)
+docker restart <container_id>				(to restart the stopped container ex: like pythonContainer)
+docker restart pythonContainer
+docker ps						(now show pythonContainer because it is started & running)
+
+docker login                                            (login to dockerhub ex: to push locally created images to hub)
+
+docker commit						(create & save the edited container in local)
+
+docker push						(to push local docker image to remote docker repo/hub)
+
+docker network						(to give details about network in cluster)
+
+docker copy						(copy files from local to dockerhub & viseverca)
+
+docker logs <container_id>				(to check logs)
+
+docker volume						(to create volume so docker container used to store data)
+
+docker logout						(logout from docker hub)
+
+---------------------------------------------- Creating images for our projects-----------------------------------
+
+								------ubuntu image------
+-> create folder in local for image
+   ex: ubuntu-image (folder)
+
+#commands
+cd ubuntu-image
+code .								(opens vscode from current path/directory)
+
+-> create "Dockefile" file & install docker extension in vscode for extra suggestions & restart vs
+Dockerfile 
+>>>
+	From ubuntu
+	MAINTAINER kranthi
+	RUN apt update
+	CMD ["echo","this is my first image"]
+
+ explanation: we are using "ubutu" as base image & I am maintaining it then build that image(Run) & after execute commands
+
+-> Open Terminal
+
+#commands
+docker build -t myubuntuimage .
+docker images 						(we will see "myubuntuimage" image in list)
+docker run --name myUbuntuContainer myubuntuimage
+				    <image_name/repo>
+>>>
+   this is my first ubuntu image			(directly displays echo message after we run the container)
+
+-> Explanation Dockerfile 
+
+	# this base image
+	From ubuntu
+	# author name
+	MAINTAINER kranthi
+	# update command
+	RUN apt update
+	# startup executable command
+	CMD ["echo","this is my first image"]
+
+							----------Java project & image --------------
+
+-> open Terminal	
+
+#commands
+docker ps
+docker stop <container_id>			(stop any running container just for clean understanding)
+
+cd ..						(come outside of earlier ubuntu folder directory)
+mkdir java-project					
+ls						("java-project" folder is created)
+cd java-project
+code .
+
+-> create sample hello.java file inside java-project folder
+
+Hello.java
+class Hello{
+	public static void main(String[] args){
+		System.out.println("Hello World.....java started");
+	}
+}
+
+-> create Dockerfile file
+Dockerfile   (for java project)
+>>>
+	FROM openjdk:11
+	WORKDIR /usr/src/myapp
+	COPY .	/usr/src/myapp/
+	RUN javac Hello.java
+	CMD ["java","Hello"]
+
+-explanation: 	WORKDIR in docker we will create
+	     	COPY .(current local directory to inside docker directory)
+		RUN (will compile mentioned java file)
+		CMD (will execute "java Hello" command & prints output)
+
+Dockerfile   (for python project)
+>>>
+	FROM python
+	WORKDIR /usr/src/myapp
+	COPY .	/usr/src/myapp/
+	CMD ["python3","hello.py"]
+
+-> Build the image so open terminal
+#commands
+docker build -t myjavaimage .			(-t means tag name - image name for created image)
+docker images					(will see created image "myjavaimage")
+docker run --name javaProject myjavaimage	(run the image so container starts & prints output from hello.java file)
+
+						-------------SpringBoot & image----------
+
+-> Create sample spring project & import in sts/eclipse
+	-write sample controller, service code to display output while we hit in browser
+	-application.properties:
+		server.port=9595
+	-run the project from sts & test in browser by hitting api
+
+-> Create jar files
+	-main executable file in sprinboot & need to use/copy this jar in image creattion path
+        -gradle -> task -> build -> build(double tap) 	(may be for gradle or other ide projects to create jars for projects)
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
 
 
 
