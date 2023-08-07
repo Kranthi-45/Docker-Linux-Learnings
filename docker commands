@@ -368,6 +368,33 @@ ex: docker logs bootProject
 	-output is showing
 	-application is running inside docker container(docker ps) not in host operating system.
 
+-------------------------------------------------------------------React & Image------------------------------------------
+-> Create "react-app" folder & open cmd from that location
+-> Create sample react project for deployment
+	#commands
+	npx create-react-app myapp
+	cd myapp
+	code .				(edit the react app then will proceed for deployment)
+	npm start
+-> open Docker desktop in laptop will take sometime to open becoz it will run
+-> open cmd
+
+#commands
+docker ps 				(check any running containers)
+docker ps -a				(check did we ran any container)
+docker images
+docker rmi <image_id>
+docker rmi <intials> <intials>		(intials means first two letters of image/container id - multiple images we are removing)
+ex: docker rmi 8f hb			(removing any existing images for clear understanding)
+docker images				(now shows nothing after removing all images)
+
+-> Create files
+	Dockerfile.dev			(for development)
+	Dockerfile			(for production , will serve prod build using nginx)
+
+
+	
+
 
 
 		
