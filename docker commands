@@ -371,15 +371,27 @@ Dockerfile
 
 	#Sets default directory / create parent directory in remote where below operations from this dir (optional)
 	WORKDIR /usr/src/myapp
+	# WORKDIR /usr/src/app
+        # WORKDIR /app
 
-	COPY . /usr/src/myapp/
-        # COPY ./target/DockerTest-0.0.1-SNAPSHOT.jar /usr/src/myapp/
+        #copy files & dir from the local into remote/image & doesn't attempt to extract or process archives (use one COPY or ADD)
+	# COPY . /usr/src/myapp/
+        COPY ./target/DockerTest-0.0.1-SNAPSHOT.jar /usr/src/myapp/
         # COPY ./target/DockerTest-0.0.1-SNAPSHOT.jar  spring-backend-app.jar
 
-        ADD target/DockerTest-0.0.1-SNAPSHOT.jar  spring-backend-app.jar
+        #additonal things copy local files & dir,also downloads files from remote URLs & extract archives(tar, zip) into the image (use one COPY or ADD)
+        # ADD target/DockerTest-0.0.1-SNAPSHOT.jar  spring-backend-app.jar
         
-        # ENTRYPOINT ["java", "-jar","spring-backend-app.jar"]
+        ENTRYPOINT ["java", "-jar","spring-backend-app.jar"]
 	# CMD ["java","-jar","DockerTest-0.0.1-SNAPSHOT.jar"]
+
+ 	#fixed manin command & additional args will be passed to that main command directly(to app.jar itself) not while running container.
+        ENTRYPOINT ["java", "-jar","spring-backend-app.jar"]
+
+        #provides default args that can be overridden at runtime if want(ex: docker run my-app overridden-argument)
+        #additional args to main command(to java -jar app.jar) while running container in terminal.
+	# CMD ["java","-jar","DockerTest-0.0.1-SNAPSHOT.jar", "default-argument"]
+
 	EXPOSE 9595
 
                            or
