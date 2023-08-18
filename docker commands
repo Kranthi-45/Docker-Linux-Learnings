@@ -349,33 +349,35 @@ docker run --name javaProject myjavaimage	(run the image so container starts & p
 -> Deloy Created JAR
 
 -> Open CMD
-#commands
-ls
-mkdir springboot-project
-cd springboot-project
-code .				(open vscode)
+   #commands
+	ls
+	mkdir springboot-project
+	cd springboot-project
+	code .				(opens vscode)
 
--> copy created jars into new above created folder "springboot-project"
-
+   -copy created jars into newly created folder "springboot-project"  & create Dockerfile in that folder
+                                      or
+   -Directly create Dockerfile in project only in pom.xml/root diretory
+  
 -> create Dockerfile
 Dockerfile
 >>>
 	FROM openjdk
-	WOTKDIR /usr/src/myapp
+	WORKDIR /usr/src/myapp
 	COPY . /usr/src/myapp/
 	CMD ["java","-jar","DockerTest-0.0.1-SNAPSHOT.jar"]
 	EXPOSE 9595
 
 -> Build the image from/using Dockerfile & then run it
-#commands
-docker build -t bootimage .
-docker images							("bootimage" image is created after successfull build)
-docker run --name bootProject -it -p 9595:9595 -d bootimage	(need to expose port while running or else wont see output in 9595 port in browser)
-		<container_name>    <image_name>
-docker ps							(can see bootimage container is running)
+  #commands
+	docker build -t bootimage .
+	docker images							("bootimage" image is created after successfull build)
+	docker run --name bootProject -it -p 9595:9595 -d bootimage	(need to expose port while running or else wont see output in 9595 port in browser)
+			<container_name>    <image_name>
+	docker ps							(can see bootimage container is running)
 
-docker logs <container_name/id>
-ex: docker logs bootProject
+	docker logs <container_name/id>
+	ex: docker logs bootProject
 
 -> Open localhost:9595
 	-output is showing
