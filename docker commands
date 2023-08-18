@@ -363,10 +363,28 @@ docker run --name javaProject myjavaimage	(run the image so container starts & p
 Dockerfile
 >>>
 	FROM openjdk
+        # FROM openjdk:17-jdk-alpine
+        # FROM openjdk:11
+
+        #Set a label to identify the maintainers of the image
+        LABEL maintainers = "kranthikumar.net"  
+
+	#Sets default directory / create parent directory in remote where below operations from this dir (optional)
 	WORKDIR /usr/src/myapp
+
 	COPY . /usr/src/myapp/
-	CMD ["java","-jar","DockerTest-0.0.1-SNAPSHOT.jar"]
+        # COPY ./target/DockerTest-0.0.1-SNAPSHOT.jar /usr/src/myapp/
+        # COPY ./target/DockerTest-0.0.1-SNAPSHOT.jar  spring-backend-app.jar
+
+        ADD target/DockerTest-0.0.1-SNAPSHOT.jar  spring-backend-app.jar
+        
+        # ENTRYPOINT ["java", "-jar","spring-backend-app.jar"]
+	# CMD ["java","-jar","DockerTest-0.0.1-SNAPSHOT.jar"]
 	EXPOSE 9595
+
+                           or
+
+        ARG JAR_FILE = target/*.jar
 
 -> Build the image from/using Dockerfile & then run it
   #commands
