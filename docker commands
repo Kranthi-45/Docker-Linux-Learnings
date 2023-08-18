@@ -418,7 +418,8 @@ Dockerfile
 	-output is showing
 	-application is running inside docker container(docker ps) not in host operating system.
 
----------------- Dockerfile with "ARG"
+---------------- Dockerfile with "ARG"--------------
+
 - 'ARG' instruction allows to define variables during 'docker build' process
 - i have java application jar "my-app-1.0.jar".
 - 'JAVA_VERSION' arg/variable in Dockerfile will be overridden during the cmnd build process using the '--build-arg' flag
