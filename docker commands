@@ -322,15 +322,28 @@ docker run --name javaProject myjavaimage	(run the image so container starts & p
 	-run the project from sts & test in browser by hitting api
 
 -> Create jar files
-	-main executable file in sprinboot & need to use/copy this jar in image creattion path
-	-jar creations
+	-main executable file in sprinboot & need to use/copy this jar in image creation path
+	-jar creations:
         	gradle -> task -> build -> build(double tap) 	(may be for gradle or other ide projects to create jars for projects)
-	-Navigate to project explorer leftside in IDE
-		Build -> lib -> .jar
+	   			 or
+		Navigate to project explorer leftside in IDE
+		Build -> lib -> .jar   
+				 or
+		IDE -> project explorer -> Run as -> Maven Clean & Maven Install  
+									or
+						     Maven Build -> In Goal : clean install or package -> Run
+				or
+                open cmd in pom.xml directory
+		#commands
+			mvn clean install -DskipTests
+			mvn clean package -DskipTests
+
+	-jar generated in target folder in project	
+               
         -Test jar in local
 		open jar folder location -> open cmd from jar directory
-				#commands
-				java jar .\DockerTest-0.0.1-SNAPSHOT.jar
+		#commands
+			java jar .\DockerTest-0.0.1-SNAPSHOT.jar
 		will see output -> "Application started"
 
 -> Deloy Created JAR
