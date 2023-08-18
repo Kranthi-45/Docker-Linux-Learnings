@@ -445,7 +445,45 @@ Dockerfile
 #Commands
 	docker build --build-arg JAR_VERSION=1.0 -t my-java-app .
 	docker run my-java-app
+==========================
+Final SampleSpringBoot Dockerfile:
+>>>>>>>>>>>>>>
+	FROM openjdk:17-jdk-alpine
+	LABEL maintainers = "Kranthi Kumar"  
+	WORKDIR /usr/src/myapp
+	COPY ./target/demo-springboot-0.0.1-SNAPSHOT.jar /usr/src/myapp/
+	# COPY ./target/demo-springboot-0.0.1-SNAPSHOT.jar  demo-springboot-app.jar
+	ENTRYPOINT ["java", "-jar","demo-springboot-0.0.1-SNAPSHOT.jar"]
+	EXPOSE 9595
 
+#commands 
+#docker build -t springboot-image .
+#docker images
+#docker run --name springBootProject -it -p 8080:9595 -d springboot-image
+#docker stop springBootProject
+#docker rm springBootProject
+
+==========================
+with SampleSpringBoot docker-compose.yml:
+>>>>>>>>>>>>>>
+version: '3'
+services:
+  springboot-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: springboot-image
+    container_name: springBootProject
+    ports:
+      - "9595:8080"
+      
+ #container_port:host_port 
+
+
+*imp points:
+ #When using 
+ # -the docker run command,correct order for port mapping is -p hostPort:containerPort.
+ # -However,in docker-compose.yml file, the order is reversed, specifying containerPort:hostPort.
 
 -------------------------------------------------------------------React & Image------------------------------------------
 -> Create "react-app" folder & open cmd from that location
