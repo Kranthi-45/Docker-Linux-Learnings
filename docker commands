@@ -359,7 +359,7 @@ docker run --name javaProject myjavaimage	(run the image so container starts & p
                                       or
    -Directly create Dockerfile in project only in pom.xml/root diretory
   
--> create Dockerfile
+-> create Dockerfile for building image
 Dockerfile
 >>>
 	FROM openjdk
@@ -392,6 +392,7 @@ Dockerfile
         #additional args to main command(to java -jar app.jar) while running container in terminal.
 	# CMD ["java","-jar","DockerTest-0.0.1-SNAPSHOT.jar", "default-argument"]
 
+        #Not mandatory, for clear documenting, others understanding we use, any how we need to expose port while running "-p" if we declare here also
 	EXPOSE 9595
 
                            or
@@ -400,10 +401,14 @@ Dockerfile
 
 -> Build the image from/using Dockerfile & then run it
   #commands
-	docker build -t bootimage .
+	docker build -it bootimage .
 	docker images							("bootimage" image is created after successfull build)
+
 	docker run --name bootProject -it -p 9595:9595 -d bootimage	(need to expose port while running or else wont see output in 9595 port in browser)
 			<container_name>    <image_name>
+        # docker run -it -p 9595:9595 -d <imag-name>			(-d detached mode still run in background by exist from cmnd line or else we cant enter any commnd)
+									(-t interactive mode,can access/run untill we stop container or else will start & stop immdtly)
+
 	docker ps							(can see bootimage container is running)
 
 	docker logs <container_name/id>
