@@ -1,0 +1,36 @@
+version: '3'
+services:
+  mysqldb:
+    image: mysql:5.7
+    container_name: mysqldb
+    networks:
+      - springboot-mysql-net
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: userdb
+      MYSQL_USER: hitman
+      MYSQL_PASSWORD: Ks_@961796
+    #ports:
+      #- "3306:3306"
+    #volumes:
+      #- mysqldata:/var/lib/mysql
+
+  springboot-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: springbootmysql
+    container_name: springboot-container
+    networks:
+      - springboot-mysql-net
+    depends_on:
+      - mysqldb
+    ports:
+      - "8080:8080"  
+       
+networks:
+  springboot-mysql-net:
+    driver: bridge
+
+#volumes:
+  #mysqldata:
