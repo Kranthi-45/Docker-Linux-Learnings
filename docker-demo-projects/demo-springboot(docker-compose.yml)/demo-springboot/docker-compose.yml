@@ -1,0 +1,15 @@
+version: '3'
+services:
+  springboot-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: springboot-image
+    container_name: springBootProject
+    ports:
+      - "9595:8080"
+      
+ #container_port:host_port     
+ #When using 
+ # -the docker run command,correct order for port mapping is -p hostPort:containerPort.
+ # -However,in docker-compose.yml file, the order is reversed, specifying containerPort:hostPort.
