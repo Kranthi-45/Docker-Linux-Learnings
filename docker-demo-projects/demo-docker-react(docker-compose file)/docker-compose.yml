@@ -1,0 +1,16 @@
+version: '3'
+services:
+  react-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: my-react-app
+    container_name: react-app-container
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./src:/usr/src/myapp/src
+      - ./public:/usr/src/myapp/public
+    environment:
+      - NODE_ENV=development
+    command: npm start
